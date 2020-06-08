@@ -87,15 +87,11 @@ exports.updateTask = (req, res) => {
   });
 };
 exports.deleteTask = (req, res) => {
-  let task = req.task;
-  task.remove((err) => {
-    if (err) {
-      return res.status(400).json({
-        error: err,
-      });
-    }
+  const query = req.query;
+  Tasks.remove({_id: query.id}).then((result) => {
     res.json({
-      message: "Task deleted successfully",
-    });
-  });
+      result
+    })
+  })
+  .catch((err) => console.log(err))
 };

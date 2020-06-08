@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 router.get("/tasks", getTasks);
 router.get("/task/:taskId", getTaskById);
 router.post("/task/new", createTask);
-router.delete("/task/:taskId", deleteTask);
+router.delete("/task", deleteTask);
 router.put("/task/:taskId", updateTask);
 router.param("taskId", taskById);
 module.exports = router;
