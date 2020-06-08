@@ -35,8 +35,8 @@ exports.createTask = (req, res, next) => {
 
 exports.getTasks = (req, res) => {
   const query = req.query;
-
-  if (query.today === "true") {
+  console.log(query.date);
+  if (query.date === "today") {
     console.log(new Date());
     Tasks.find({
       remind_date: {
@@ -52,14 +52,18 @@ exports.getTasks = (req, res) => {
       .catch((err) => console.log(err));
     return;
   }
-
-  const tasks = Tasks.find()
-    .then((tasks) => {
-      res.json({
-        tasks: tasks,
-      });
+  Tasks.find({
+    remind_date: {
+      $gte: query.date,
+      $lte: moment(query.date).endOf("day").toDate(),
+    }
+  })
+  .then((tasks) => {
+    res.json({
+      tasks: tasks
     })
-    .catch((err) => console.log(err));
+  })
+  .catch((err) => console.log(err))
 };
 
 exports.getTaskById = (req, res) => {
